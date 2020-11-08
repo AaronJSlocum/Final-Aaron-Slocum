@@ -1,9 +1,9 @@
 <?php
-define('DATABASE_NAME', 'HMRICE_Registrar_Data_2020');
-define('DATABASE_READER', 'hmrice_reader');
+define('DATABASE_NAME', 'AJSLOCUM_Final_Data');
+define('DATABASE_READER', 'ajslocum_reader');
 define('DATABASE_READER_PWD', 'r');
 define('DATABASE_WRITER_PWD', 'w');
-define('DATABASE_WRITER', 'hmrice_writer');
+define('DATABASE_WRITER', 'ajslocum_writer');
 
 define('ADMIN_EMAIL', get_current_user() . '@uvm.edu');
 
