@@ -8,8 +8,9 @@
     <head>
         <meta charset="utf-8">
         <title>CS 148 ROCKS.</title>
-        <meta name="author" content="Henry Rice">
-        <meta name="description" content="A site map to all my groovy assignments for the best course at UVM.">
+        <meta name="author" content="Henry Rice, Aaron Slocum, Emmett O'Connell">
+        <meta name="description" content="A site for purchasing delicious meads">
+        <link rel='stylesheet' href='custom_css_final.css' type='text/css'>
     </head>
         
 
