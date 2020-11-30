@@ -3,6 +3,8 @@
     <?php
     $submit = isset($_POST['submit']);
     $status = $_POST['status'];
+    $exists = empty($_SESSION);
+    if($exists){
     if ($submit && $status == 'Login'){
       print'<h2>Login</h2>';
       $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND fldFirstName LIKE ? AND fldLastName LIKE ?";
@@ -20,6 +22,7 @@
         print '<input type="submit" name="signup" value="Sign Up"/>';
         print '</form>';
       }
+    $_SESSION['user']=$user;
     }elseif ($submit &&($status == 'Sign Up')) {
       print'<h2>Sign up</h2>';
       $query = "INSERT INTO `tblCustomers` SET `pmkCustomerEmail` = ?, `fldFirstName` = ?,
@@ -41,10 +44,19 @@
     }
     if($sucess){
       print '<p>Sign Up Sucessful</p>';
+      $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND fldFirstName LIKE ? AND fldLastName LIKE ?";
+      $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
+      if ($thisDatabaseWriter->querySecurityOk($query,1,2)) {
+        $query = $thisDatabaseWriter->sanitizeQuery($query);
+        $user = $thisDatabaseWriter->select($query, $name);
+        $user = $user[0];
+      }
+      $_SESSION['user']=$user;
     }else{
       print '<p>Sign Up Failed</p>';
     }
   }else{
+         print_r($_SESSION['newsession']);
          print '<form action="login.php" method="get">';
          if($_GET['signup']=='Sign Up'){
              print '<input type="submit" name="signup" value="Login"/>';
@@ -56,7 +68,7 @@
          }else{
              print '<h2>Login</h2>';
          }
-         print '<form action="login.php" method="post">';
+         print '<form action="' . $_SERVER['PHP_SELF'] .'"method="post">';
          print '<label for="firstName">First Name:</label>
          <input type="text" id="firstName" name="firstName"><br><br>';
          print '<label for="lastName">Last Name:</label>
@@ -92,6 +104,28 @@
          }
          print '<input type="submit" name="submit" value="Submit"/>';
          print '</form>';
+  }}elseif((!$exists)&& $status!='Logout' && $status!='Remove Account'){
+    print'<p>You are already logged in</p>';
+    print '<form action="login.php" method="post">';
+    print '<input type="submit" name="status" value="Logout"/>';
+    print '<input type="submit" name="status" value="Remove Account"/>';
+    print '</form>';
+  }elseif((!$exists)&&($status=='Logout')){
+    session_unset();
+    header("Location: index.php");
+  }elseif((!$exists)&&($status=='Remove Account')){
+    $query = "DELETE FROM `tblCustomers` WHERE `tblCustomers`.`pmkCustomerEmail` = ?";
+    $user = array($_SESSION['user']['pmkCustomerEmail']);
+    print_r($user);
+    $thisDatabaseWriter->testSecurityQuery($query);
+    if ($thisDatabaseWriter->querySecurityOk($query)) {
+      $query = $thisDatabaseWriter->sanitizeQuery($query);
+      $sucess = $thisDatabaseWriter->delete($query, $user);
+    }
+    if($sucess){
+      session_unset();
+      print '<p>Your account has been removed</p>';
+    }
   }
     ?>
 
