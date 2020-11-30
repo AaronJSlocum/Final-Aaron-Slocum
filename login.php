@@ -1,17 +1,23 @@
+<?php include 'top.php'; ?>
 <main>
     <?php
     $submit = isset($_POST['submit']);
     $status = $_POST['status'];
     if ($submit && $status == 'Login'){
       print'<h2>Login</h2>';
-      $query = "SELECT * FROM `tblCustomers` WHERE fldFirstName LIKE ? AND fldLastName LIKE ?";
-      $name = [$_POST['firstName'],$_POST['lastName']];
+      $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND fldFirstName LIKE ? AND fldLastName LIKE ?";
+      $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
       if ($thisDatabaseWriter->querySecurityOk($query)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
-        $sucess = $thisDatabaseWriter->select($query, $name);
+        $user = $thisDatabaseWriter->select($query, $name);
       }
-      if(($sucess['fldFirstName']==$_POST['firstName'])&&($sucess['fldLastName']==$_POST['lastName'])){
+      if(($user['fldFirstName']==$_POST['firstName'])&&($user['fldLastName']==$_POST['lastName'])){
         print '<p>Login Sucessful</p>';
+      }else{
+        print '<p>You Are Not Registered</p>';
+        print '<form action="login.php" method="get">';
+        print '<input type="submit" name="signup" value="Sign Up"/>';
+        print '</form>';
       }
     }elseif ($submit &&($status == 'Sign Up')) {
       print'<h2>Sign up</h2>';
@@ -54,9 +60,9 @@
          <input type="text" id="firstName" name="firstName"><br><br>';
          print '<label for="lastName">Last Name:</label>
          <input type="text" id="lastName" name="lastName"><br><br>';
+         print '<label for="email">Email:</label>
+         <input type="text" id="email" name="email"><br><br>';
          if ($_GET['signup']=='Sign Up'){
-           print '<label for="email">Email:</label>
-           <input type="text" id="email" name="email"><br><br>';
            print '<h4>Billing Info</h4>';
            print '<label for="billAd">Address:</label>
            <input type="text" id="billAd" name="billAd"><br><br>';
