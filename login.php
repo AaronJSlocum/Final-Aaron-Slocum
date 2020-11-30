@@ -4,21 +4,21 @@ include 'top.php';
 
 <main>
     <?php
-    if (isset($_POST['submit'])&&!isset($_GET['signup'])){
+    if (isset($_POST['submit'])&&(!isset($_GET['signup'])){
       print'<h2>Login</h2>';
-      $query = "SELECT * FROM `tblCustomers` WHERE First_Name LIKE ? AND Last_Name LIKE ?";
+      $query = "SELECT * FROM `tblCustomers` WHERE fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['firstName'],$_POST['lastName']]
       if ($thisDatabaseWriter->querySecurityOk($query)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
         $sucess = $thisDatabaseWriter->select($query, $name);
       }
-      if($name['First_Name']==){
+      if($name['fldFirstName']==){
         print '<p>Login Sucessful</p>'
       }
     }elseif (isset($_POST['submit'])&&isset($_GET['signup'])) {
       print'<h2>Sign up</h2>';
-      $query = "INSERT INTO `tblCustomers` SET `pmk_costomer_email` = ?, `First_Name` = ?,
-      `Last_Name` = ?, `Billing_Address` = ?, `Shipping_Address` = ?";
+      $query = "INSERT INTO `tblCustomers` SET `pmk_costomer_email` = ?, `fldFirstName` = ?,
+      `fldLastName` = ?, `fldBillingAddress` = ?, `fldShippingAddress` = ?";
       $billingAdd = $_POST['billAd'] . ',' . $_POST['billCity'] .', ' . $_POST['billSt'] . ', ' .
       $_POST['billZip'] . ', USA';
       if(isset($_POST['sameSame']){
