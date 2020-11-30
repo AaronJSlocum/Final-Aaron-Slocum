@@ -7,9 +7,10 @@
       print'<h2>Login</h2>';
       $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
-      if ($thisDatabaseWriter->querySecurityOk($query)) {
+      if ($thisDatabaseWriter->querySecurityOk($query,1,2)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
         $user = $thisDatabaseWriter->select($query, $name);
+        $user = $user[0];
       }
       if(($user['fldFirstName']==$_POST['firstName'])&&($user['fldLastName']==$_POST['lastName'])){
         print '<p>Login Sucessful</p>';
