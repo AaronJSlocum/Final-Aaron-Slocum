@@ -3,11 +3,63 @@
     <?php
     $submit = isset($_POST['submit']);
     $status = $_POST['status'];
-    $exists = empty($_SESSION);
-    if($exists){
-    if ($submit && $status == 'Login'){
+    $sameSame = isset($_POST['sameSame']);
+    $errors = false;
+    $errorMgs =[];
+    //Check for errors
+    if($submit){
+    if(empty($_POST['firstName'])){
+      $errors = true;
+      array_push($errorMgs,'First Name not set');
+    }if(empty($_POST['lastName'])){
+      $errors = true;
+      array_push($errorMgs,'Last Name not set');
+    }if(empty($_POST['email'])){
+      $errors = true;
+      array_push($errorMgs,'Email not set');
+    }if($status == 'Sign Up'){
+      if(empty($_POST['billAd'])){
+      $errors = true;
+      array_push($errorMgs,'Billing Address not set');
+    }if(empty($_POST['billCity'])){
+      $errors = true;
+      array_push($errorMgs,'Billing City not set');
+    }if(empty($_POST['billSt'])){
+      $errors = true;
+      array_push($errorMgs,'Billing State not set');
+    }if(empty($_POST['billZip'])){
+      $errors = true;
+      array_push($errorMgs,'Billing Zipcode not set');
+    }elseif(!ctype_digit($_POST['billZip'])){
+      $errors = true;
+      array_push($errorMgs,'Billing Zipcode invalid');
+    }if(!$sameSame){
+      if(empty($_POST['shipAd'])){
+        $errors = true;
+        array_push($errorMgs,'Shiping Address not set');
+      }if(empty($_POST['shipCity'])){
+        $errors = true;
+        array_push($errorMgs,'Shiping City not set');
+      }if(empty($_POST['shipSt'])){
+        $errors = true;
+        array_push($errorMgs,'Shiping State not set');
+      }if(empty($_POST['shipZip'])){
+        $errors = true;
+        array_push($errorMgs,'Shiping Zipcode not set');
+      }elseif(!ctype_digit($_POST['shipZip'])){
+        $errors = true;
+        array_push($errorMgs,'Shiping Zipcode invalid');
+    }}}}
+    if(!$errors){
+      $noUser = empty($_SESSION);
+    }else{
+      $noUser = true;
+    }
+    if($noUser){
+    if ($submit && $status == 'Login' && !$errors){
       print'<h2>Login</h2>';
-      $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND fldFirstName LIKE ? AND fldLastName LIKE ?";
+      $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND
+      fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
       if ($thisDatabaseWriter->querySecurityOk($query,1,2)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
@@ -16,25 +68,24 @@
       }
       if(($user['fldFirstName']==$_POST['firstName'])&&($user['fldLastName']==$_POST['lastName'])){
         print '<p>Login Sucessful</p>';
+        $_SESSION['user']=$user;
       }else{
-        print '<p>You Are Not Registered</p>';
+        print '<p>User not found</p>';
         print '<form action="login.php" method="get">';
         print '<input type="submit" name="signup" value="Sign Up"/>';
         print '</form>';
       }
-    $_SESSION['user']=$user;
-    }elseif ($submit &&($status == 'Sign Up')) {
+    }elseif ($submit &&($status == 'Sign Up') && !$errors) {
       print'<h2>Sign up</h2>';
       $query = "INSERT INTO `tblCustomers` SET `pmkCustomerEmail` = ?, `fldFirstName` = ?,
       `fldLastName` = ?, `fldBillingAddress` = ?, `fldShippingAddress` = ?";
       $billingAdd = $_POST['billAd'] . ', ' . $_POST['billCity'] .', ' . $_POST['billSt'] . ', ' .
       $_POST['billZip'] . ', USA';
-      $sameSame = isset($_POST['sameSame']);
       if($sameSame){
         $shippingAdd = $billingAdd;
       }else{
-        $shippingAdd = $_POST['shipAd'] . ', ' . $_POST['shipCity'] . ', ' . $_POST['shipSt'] . ', ' .
-        $_POST['shipZip'] . ', USA';
+        $shippingAdd = $_POST['shipAd'] . ', ' . $_POST['shipCity'] . ', ' .
+        $_POST['shipSt'] . ', ' . $_POST['shipZip'] . ', USA';
       }
       $info = [$_POST['email'],$_POST['firstName'],$_POST['lastName'],$billingAdd,
       $shippingAdd];
@@ -44,7 +95,8 @@
     }
     if($sucess){
       print '<p>Sign Up Sucessful</p>';
-      $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND fldFirstName LIKE ? AND fldLastName LIKE ?";
+      $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND
+      fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
       if ($thisDatabaseWriter->querySecurityOk($query,1,2)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
@@ -56,7 +108,7 @@
       print '<p>Sign Up Failed</p>';
     }
   }else{
-         print_r($_SESSION['newsession']);
+
          print '<form action="login.php" method="get">';
          if($_GET['signup']=='Sign Up'){
              print '<input type="submit" name="signup" value="Login"/>';
@@ -67,35 +119,44 @@
              print '<h2>Sign Up</h2>';
          }else{
              print '<h2>Login</h2>';
+         }if($errors){
+           print '<p id="errors">Following errors found: ';
+           foreach($errorMgs as &$errorMg){
+            if ($errorMg == end($errorMgs)){
+              print $errorMg.".";
+            }else{
+              print $errorMg.", ";
+            }}
+           print '</p>';
          }
          print '<form action="' . $_SERVER['PHP_SELF'] .'"method="post">';
          print '<label for="firstName">First Name:</label>
-         <input type="text" id="firstName" name="firstName"><br><br>';
+         <input type="text" id="firstName" name="firstName" value="'.$_POST['firstName'].'"><br><br>';
          print '<label for="lastName">Last Name:</label>
-         <input type="text" id="lastName" name="lastName"><br><br>';
+         <input type="text" id="lastName" name="lastName" value="'.$_POST['lastName'].'"><br><br>';
          print '<label for="email">Email:</label>
-         <input type="text" id="email" name="email"><br><br>';
-         if ($_GET['signup']=='Sign Up'){
+         <input type="text" id="email" name="email" value="'.$_POST['email'].'"><br><br>';
+         if ($_GET['signup']=='Sign Up'||$status=='Sign Up'){
            print '<h4>Billing Info</h4>';
            print '<label for="billAd">Address:</label>
-           <input type="text" id="billAd" name="billAd"><br><br>';
+           <input type="text" id="billAd" name="billAd" value="'.$_POST['billAd'].'"><br><br>';
            print '<label for="billCity">City:</label>
-           <input type="text" id="billCity" name="billCity"><br><br>';
+           <input type="text" id="billCity" name="billCity" value="'.$_POST['billCity'].'"><br><br>';
            print '<label for="billSt">State:</label>
-           <input type="text" id="billSt" name="billSt"><br><br>';
+           <input type="text" id="billSt" name="billSt" value="'.$_POST['billSt'].'"><br><br>';
            print '<label for="billZip">Zip:</label>
-           <input type="text" id="billZip" name="billZip"><br><br>';
+           <input type="text" id="billZip" name="billZip" value="'.$_POST['billZip'].'"><br><br>';
            print '<input type="checkbox" id="sameSame" name="sameSame">
            <label for="sameSame">Is your shipping sddress same as billing?</label>';
            print '<h4>Shipping Info</h4>';
            print '<label for="shipAd">Address:</label>
-           <input type="text" id="shipAd" name="shipAd"><br><br>';
+           <input type="text" id="shipAd" name="shipAd" value="'.$_POST['shipAd'].'"><br><br>';
            print '<label for="shipCity">City:</label>
-           <input type="text" id="shipCity" name="shipCity"><br><br>';
+           <input type="text" id="shipCity" name="shipCity" value="'.$_POST['shipCity'].'"><br><br>';
            print '<label for="shipSt">State:</label>
-           <input type="text" id="shipSt" name="shipSt"><br><br>';
+           <input type="text" id="shipSt" name="shipSt" value="'.$_POST['shipSt'].'"><br><br>';
            print '<label for="shipZip">Zip:</label>
-           <input type="text" id="shipZip" name="shipZip"><br><br>';
+           <input type="text" id="shipZip" name="shipZip" value="'.$_POST['shipZip'].'"><br><br>';
              }
          if (($_GET['signup']=='Login')||!isset($_GET['signup'])){
            print '<input type="hidden" id="status" name="status" value="Login"/>';
@@ -104,16 +165,21 @@
          }
          print '<input type="submit" name="submit" value="Submit"/>';
          print '</form>';
-  }}elseif((!$exists)&& $status!='Logout' && $status!='Remove Account'){
+  }}elseif((!$noUser)&& $status!='Logout' && $status!='Remove Account'){
     print'<p>You are already logged in</p>';
     print '<form action="login.php" method="post">';
     print '<input type="submit" name="status" value="Logout"/>';
     print '<input type="submit" name="status" value="Remove Account"/>';
     print '</form>';
-  }elseif((!$exists)&&($status=='Logout')){
+  }elseif((!$noUser)&&($status=='Logout')){
     session_unset();
     header("Location: index.php");
-  }elseif((!$exists)&&($status=='Remove Account')){
+  }elseif((!$noUser)&&($status=='Remove Account')){
+    print'<p>Are you sure?</p>';
+    print '<form action="login.php" method="post">';
+    print '<input type="submit" name="status" value="Im Sure"/>';
+    print '</form>';
+  }elseif((!$noUser)&&($status=='Im Sure')){
     $query = "DELETE FROM `tblCustomers` WHERE `tblCustomers`.`pmkCustomerEmail` = ?";
     $user = array($_SESSION['user']['pmkCustomerEmail']);
     print_r($user);
@@ -124,8 +190,9 @@
     }
     if($sucess){
       session_unset();
-      print '<p>Your account has been removed</p>';
-    }
+      print '<p>Your account has been removed</p>';}
+    elseif (!$sucess) {
+        print '<p>Your account has not been removed</p>';}
   }
     ?>
 
