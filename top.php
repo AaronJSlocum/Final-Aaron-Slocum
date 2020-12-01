@@ -26,6 +26,15 @@
         include LIB_PATH . '/Connect-With-Database.php';
 
         print '<!-- libraries complete-->';
+
+				function clearMeta(){
+					foreach ($_POST as $key => $value) {
+						unset($_POST[$key]);
+					}
+					foreach ($_GET as $key => $value) {
+						unset($_GET[$key]);
+					}
+				}
 ?>
  <?php
     //giving each body element an id really helps the css later on

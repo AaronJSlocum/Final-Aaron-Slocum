@@ -17,6 +17,9 @@
     }if(empty($_POST['email'])){
       $errors = true;
       array_push($errorMgs,'Email not set');
+    }elseif(preg_match('@',$_POST['email'])){
+      $errors = true;
+      array_push($errorMgs,'Email not valid');
     }if($status == 'Sign Up'){
       if(empty($_POST['billAd'])){
       $errors = true;
@@ -30,25 +33,25 @@
     }if(empty($_POST['billZip'])){
       $errors = true;
       array_push($errorMgs,'Billing Zipcode not set');
-    }elseif(!ctype_digit($_POST['billZip'])){
+    }elseif((!ctype_digit($_POST['billZip']))){
       $errors = true;
       array_push($errorMgs,'Billing Zipcode invalid');
     }if(!$sameSame){
-      if(empty($_POST['shipAd'])){
-        $errors = true;
-        array_push($errorMgs,'Shiping Address not set');
-      }if(empty($_POST['shipCity'])){
-        $errors = true;
-        array_push($errorMgs,'Shiping City not set');
-      }if(empty($_POST['shipSt'])){
-        $errors = true;
-        array_push($errorMgs,'Shiping State not set');
-      }if(empty($_POST['shipZip'])){
-        $errors = true;
-        array_push($errorMgs,'Shiping Zipcode not set');
-      }elseif(!ctype_digit($_POST['shipZip'])){
-        $errors = true;
-        array_push($errorMgs,'Shiping Zipcode invalid');
+    if(empty($_POST['shipAd'])){
+      $errors = true;
+      array_push($errorMgs,'Shipping Address not set');
+    }if(empty($_POST['shipCity'])){
+      $errors = true;
+      array_push($errorMgs,'Shipping City not set');
+    }if(empty($_POST['shipSt'])){
+      $errors = true;
+      array_push($errorMgs,'Shipping State not set');
+    }if(empty($_POST['shipZip'])){
+      $errors = true;
+      array_push($errorMgs,'Shipping Zipcode not set');
+    }elseif((!ctype_digit($_POST['shipZip']))){
+      $errors = true;
+      array_push($errorMgs,'Shipping Zipcode invalid');
     }}}}
     if(!$errors){
       $noUser = empty($_SESSION);
@@ -61,7 +64,7 @@
       $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND
       fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
-      if ($thisDatabaseWriter->querySecurityOk($query,1,2)) {
+      if ($thisDatabaseWriter->querySecurityOk($query,1,1)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
         $user = $thisDatabaseWriter->select($query, $name);
         $user = $user[0];
@@ -75,6 +78,7 @@
         print '<input type="submit" name="signup" value="Sign Up"/>';
         print '</form>';
       }
+      clearMeta();
     }elseif ($submit &&($status == 'Sign Up') && !$errors) {
       print'<h2>Sign up</h2>';
       $query = "INSERT INTO `tblCustomers` SET `pmkCustomerEmail` = ?, `fldFirstName` = ?,
@@ -98,7 +102,7 @@
       $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND
       fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
-      if ($thisDatabaseWriter->querySecurityOk($query,1,2)) {
+      if ($thisDatabaseWriter->querySecurityOk($query,1,1)) {
         $query = $thisDatabaseWriter->sanitizeQuery($query);
         $user = $thisDatabaseWriter->select($query, $name);
         $user = $user[0];
@@ -107,8 +111,8 @@
     }else{
       print '<p>Sign Up Failed</p>';
     }
+    clearMeta();
   }else{
-
          print '<form action="login.php" method="get">';
          if($_GET['signup']=='Sign Up'){
              print '<input type="submit" name="signup" value="Login"/>';
@@ -165,7 +169,7 @@
          }
          print '<input type="submit" name="submit" value="Submit"/>';
          print '</form>';
-  }}elseif((!$noUser)&& $status!='Logout' && $status!='Remove Account'){
+  }}elseif((!$noUser)&& $status!='Logout' && $status!='Remove Account' && $status!='Im Sure'){
     print'<p>You are already logged in</p>';
     print '<form action="login.php" method="post">';
     print '<input type="submit" name="status" value="Logout"/>';
@@ -173,6 +177,7 @@
     print '</form>';
   }elseif((!$noUser)&&($status=='Logout')){
     session_unset();
+    clearMeta();
     header("Location: index.php");
   }elseif((!$noUser)&&($status=='Remove Account')){
     print'<p>Are you sure?</p>';
@@ -182,14 +187,13 @@
   }elseif((!$noUser)&&($status=='Im Sure')){
     $query = "DELETE FROM `tblCustomers` WHERE `tblCustomers`.`pmkCustomerEmail` = ?";
     $user = array($_SESSION['user']['pmkCustomerEmail']);
-    print_r($user);
-    $thisDatabaseWriter->testSecurityQuery($query);
     if ($thisDatabaseWriter->querySecurityOk($query)) {
       $query = $thisDatabaseWriter->sanitizeQuery($query);
       $sucess = $thisDatabaseWriter->delete($query, $user);
     }
     if($sucess){
       session_unset();
+      clearMeta();
       print '<p>Your account has been removed</p>';}
     elseif (!$sucess) {
         print '<p>Your account has not been removed</p>';}
