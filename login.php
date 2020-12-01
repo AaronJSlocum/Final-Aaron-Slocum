@@ -113,7 +113,6 @@
     }
     clearMeta();
   }else{
-         print_r($errorMgs);
          print '<form action="login.php" method="get">';
          if($_GET['signup']=='Sign Up'){
              print '<input type="submit" name="signup" value="Login"/>';
@@ -133,7 +132,6 @@
               print $errorMg.", ";
             }}
            print '</p>';
-           print_r($errorMgs);
          }
          print '<form action="' . $_SERVER['PHP_SELF'] .'"method="post">';
          print '<label for="firstName">First Name:</label>
