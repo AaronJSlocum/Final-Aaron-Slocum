@@ -133,6 +133,7 @@
             }}
            print '</p>';
          }
+         print_r($sameSame);
          print '<form action="' . $_SERVER['PHP_SELF'] .'"method="post">';
          print '<label for="firstName">First Name:</label>
          <input type="text" id="firstName" name="firstName" value="'.$_POST['firstName'].'"><br><br>';
@@ -150,8 +151,12 @@
            <input type="text" id="billSt" name="billSt" value="'.$_POST['billSt'].'"><br><br>';
            print '<label for="billZip">Zip:</label>
            <input type="text" id="billZip" name="billZip" value="'.$_POST['billZip'].'"><br><br>';
-           print '<input type="checkbox" id="sameSame" name="sameSame">
-           <label for="sameSame">Is your shipping sddress same as billing?</label>';
+           print '<input type="checkbox" id="sameSame" name="sameSame" ';
+           if($sameSame){print 'checked = "checked">';
+           }else{
+             print '>';
+           }
+           print '<label for="sameSame">Is your shipping sddress same as billing?</label>';
            print '<h4>Shipping Info</h4>';
            print '<label for="shipAd">Address:</label>
            <input type="text" id="shipAd" name="shipAd" value="'.$_POST['shipAd'].'"><br><br>';
