@@ -17,7 +17,7 @@
     }if(empty($_POST['email'])){
       $errors = true;
       array_push($errorMgs,'Email not set');
-    }elseif(preg_match('@',$_POST['email'])){
+    }elseif(strpos($_POST['email'],'@') == false){
       $errors = true;
       array_push($errorMgs,'Email not valid');
     }if($status == 'Sign Up'){
@@ -114,12 +114,12 @@
     clearMeta();
   }else{
          print '<form action="login.php" method="get">';
-         if($_GET['signup']=='Sign Up'){
+         if($_GET['signup']=='Sign Up'||$status=='Sign Up'){
              print '<input type="submit" name="signup" value="Login"/>';
          }else{
              print '<input type="submit" name="signup" value="Sign Up"/>';}
          print '</form>';
-         if($_GET['signup']=='Sign Up'){
+         if($_GET['signup']=='Sign Up'||$status=='Sign Up'){
              print '<h2>Sign Up</h2>';
          }else{
              print '<h2>Login</h2>';
@@ -162,7 +162,11 @@
            print '<label for="shipZip">Zip:</label>
            <input type="text" id="shipZip" name="shipZip" value="'.$_POST['shipZip'].'"><br><br>';
              }
-         if (($_GET['signup']=='Login')||!isset($_GET['signup'])){
+         if($errors && $status=='Sign Up' && (!isset($_GET['signup']))){
+           print '<input type="hidden" id="status" name="status" value="Sign Up"/>';
+         }elseif ($errors && $status=='Login' && (!isset($_GET['signup']))) {
+           print '<input type="hidden" id="status" name="status" value="Login"/>';
+         }elseif(($_GET['signup']=='Login')||(!isset($_GET['signup']))){
            print '<input type="hidden" id="status" name="status" value="Login"/>';
          }elseif($_GET['signup']=='Sign Up'){
            print '<input type="hidden" id="status" name="status" value="Sign Up"/>';
