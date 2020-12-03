@@ -1,6 +1,31 @@
+<head>
+<style>
+.topBanner {
+  background-color: #333;
+  overflow: hidden;
+}
 
+/* Style the links inside the navigation bar */
+.topBanner a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topBanner a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+</style>
+</head>
 <!-- ######################     Main Navigation   ########################## -->
-<nav>
+<nav class = "topBanner">
     <a class="<?php
     if ($path_parts['filename'] == "index") {
         print 'activePage';

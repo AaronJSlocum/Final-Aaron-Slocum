@@ -1,2 +1,2 @@
 # Final-Aaron-Slocum
-Henry Rice and Aaron Slocum Final Project
+Henry Rice, Aaron Slocum and Emmett O'Connell Final Project
