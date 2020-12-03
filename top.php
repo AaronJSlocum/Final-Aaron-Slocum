@@ -6,7 +6,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>CS 148 ROCKS.</title>
+        <title>Shmead Mead.</title>
         <meta name="author" content="Henry Rice, Aaron Slocum, Emmett O'Connell">
         <meta name="description" content="A site for purchasing delicious meads">
         <link rel='stylesheet' href='custom_css_final.css' type='text/css'>
