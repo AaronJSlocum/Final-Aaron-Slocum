@@ -4,19 +4,6 @@ include 'top.php';
 
 <main>
     <p>Pictures of products with descriptions, links to purchase/view more</p>
-    <style>
-        .productTable{
-                
-                margin-right: auto;
-            }
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-            }
-            tr:nth-child(even) {
-                background-color: #f2f2f2;                
-            }
-    </style>
 
 
 
