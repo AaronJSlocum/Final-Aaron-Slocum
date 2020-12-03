@@ -3,7 +3,9 @@ include 'top.php';
 ?>
 
 <main>
-    <p>Specific product description, link to add to cart</p>
+
+
+
 
     <?php
         $query = "SELECT `pmkProductID`, `fldName`,`fldPrice`,`fldRemainingStock`, `fldImage` FROM `tblInventory` WHERE `pmkProductID` = '$_GET[productID]'";
@@ -24,10 +26,15 @@ include 'top.php';
         }
     ?>
 
+<!--get quantity of product being bought  -->
     <form method = "get" action = "cart.php">
-        <label>Quantity</label>
-        <input type = 'text' name = '#' size = '2' >
+        <label for = 'quantity'>Quantity</label>
+        <input type = 'text' name = 'quantity' id = 'quantity' size = '2'>
+        <input type = "hidden" name= "productID"  id= "productID" value= <?php echo $_GET["productID"];?> >
         <input type = 'submit' value = 'Add to Cart'>
     </form>
 </main>
+
+
+
 <?php include 'footer.php'; ?>
