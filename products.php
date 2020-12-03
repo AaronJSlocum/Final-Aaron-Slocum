@@ -4,12 +4,25 @@ include 'top.php';
 
 <main>
     <p>Pictures of products with descriptions, links to purchase/view more</p>
+    <style>
+        .productTable{
+                
+                margin-right: auto;
+            }
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;                
+            }
+    </style>
 
 
 
 
 
-    <table>
+    <table class="productTable">
     		<!--
 
     		-->
@@ -33,7 +46,13 @@ include 'top.php';
         //print_r($records);
         foreach ($records as $record) {
             print '<tr>';
+            
+            print '<td> <img src="'. $record['fldImage'] .  '" alt="ProductImage" style="width:128px;height:128px;"> </td>';
 
+            print '</tr>' . PHP_EOL;
+            
+            print '<tr>';
+            
             print '<td> <a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] . '</a></td>';
 
             print '</tr>' . PHP_EOL;
