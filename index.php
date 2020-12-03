@@ -12,7 +12,7 @@ include 'top.php';
         <h2>Testimonials</h2>
         <p>"Wow, thank you so much to the guys at Shmead Meads, without them I could never have become this handsome and talented. I owe it all to the hard work these fine brewers are putting in." - Danny DeVito</p>
         <p>"It was ok" - Aaron Slocum's mother</p>
-        <p>"My god, this is the betht mead I've ever had" - 10 time heavyweight champion, Mike Tyson</p>
+        <p>"My god, this is the betht mead I've ever had" - 10 time heavyweight champion, Mike Tyson </p>
     </body>
 </main>
 <?php include 'footer.php'; ?>
