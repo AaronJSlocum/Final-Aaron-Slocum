@@ -31,7 +31,7 @@
                 width: 20%;
             }
             .productTable{
-                margin-left: auto;
+                
                 margin-right: auto;
             }
             table, th, td {
@@ -39,8 +39,5 @@
                 border-collapse: collapse;
             }
             tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-            tr:hover{
-                background-color: #FFFF00;
+                background-color: #f2f2f2;                
             }
