@@ -26,7 +26,7 @@ include 'top.php';
         }
     ?>
 
-
+<!--get quantity of product being bought  -->
     <form method = "get" action = "cart.php">
         <label for = 'quantity'>Quantity</label>
         <input type = 'text' name = 'quantity' id = 'quantity' size = '2'>
