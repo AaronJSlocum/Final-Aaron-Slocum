@@ -133,7 +133,6 @@
             }}
            print '</p>';
          }
-         print_r($sameSame);
          print '<form action="' . $_SERVER['PHP_SELF'] .'"method="post">';
          print '<label for="firstName">First Name:</label>
          <input type="text" id="firstName" name="firstName" value="'.$_POST['firstName'].'"><br><br>';
