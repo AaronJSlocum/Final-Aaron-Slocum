@@ -6,7 +6,7 @@ include 'top.php';
         <figure class="right small">
             <img alt="Logo" src="images/logo.png">
         </figure>
-        <h2>Who we are</h2>
+        <h1>Who we are</h1>
         <p>We here at Shmead Meads are committed to producing only the most delicious mead possible. We will stop at nothing to procure the finest honey and transform it into artisanal, world-class mead. We are a small, independent start-up dedicated to the brewing craft. Please do not hesitate to browse out fine selection of beverages available for sale.  </p>
         <h2>Testimonials</h2>
         <p>"Wow, thank you so much to the guys at Shmead Meads, without them I could never have become this handsome and talented. I owe it all to the hard work these fine brewers are putting in." - Danny DeVito</p>

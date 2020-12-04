@@ -3,7 +3,7 @@ include 'top.php';
 ?>
 
 <main>
-    <h>Our Fine Selection</h>
+    <h1>Our Fine Selection</h1>
 
 
 
