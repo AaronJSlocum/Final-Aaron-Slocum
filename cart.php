@@ -5,7 +5,7 @@ include 'top.php';
 <main>
 
     <table>
-
+        <h1>Your Cart</h1>
         <?php
 
         $query = "SELECT tblCarts.pfkCustomerEmail, tblCarts.pfkProductID, tblCarts.fldOrderQuantity, tblInventory.pmkProductID, tblInventory.fldName, tblInventory.fldPrice, tblInventory.fldImage, tblInventory.fldRemainingStock 
@@ -26,7 +26,7 @@ include 'top.php';
             //print_r($records);
             print '<form method = "get">';
             //print '<tr>';
-            print '<th>Your Cart</th>';
+            //print '<th>Your Cart</th>';
             //print '</tr>';
 
             print '<tr>';
