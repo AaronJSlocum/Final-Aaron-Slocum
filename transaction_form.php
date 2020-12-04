@@ -32,8 +32,12 @@ include 'top.php';
                 $records = $thisDatabaseReader->select($query, '');
             }
             //print_r($records);
+            
+
             print '<tr>';
-            print '<th>Your Order</th>';
+            print '<td>Quantity</td>';
+            print '<td>Name</td>';
+            print '<td>Price</td>';
             print '</tr>';
             $cartProcessed = true;
             foreach ($records as $record) {
