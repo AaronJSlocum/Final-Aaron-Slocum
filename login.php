@@ -183,6 +183,7 @@
     print '<input type="submit" name="status" value="Logout"/>';
     print '<input type="submit" name="status" value="Remove Account"/>';
     print '</form>';
+    print'<p3>Note: If you remove your account while you have a pending order, we may not be able to complete your purchase.</p3>';
   }elseif((!$noUser)&&($status=='Logout')){
     session_unset();
     clearMeta();
