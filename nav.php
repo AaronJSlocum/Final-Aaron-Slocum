@@ -49,5 +49,11 @@
         print 'activePage';
     }
     ?>" href="login.php">Login/Sign Up</a>
+
+    <a class="<?php
+    if ($path_parts['filename'] == "review") {
+        print 'activePage';
+    }
+    ?>" href="review.php">Leave a review</a>
 </nav>
 <!-- #################### Ends Main Navigation    ########################## -->
