@@ -9,7 +9,7 @@ include 'top.php';
 
 
 
-    <table>
+    <table class="productTable">
     		<!--
 
     		-->
@@ -33,7 +33,13 @@ include 'top.php';
         //print_r($records);
         foreach ($records as $record) {
             print '<tr>';
+            
+            print '<td> <img src="'. $record['fldImage'] .  '" alt="ProductImage" style="width:128px;height:128px;"> </td>';
 
+            print '</tr>' . PHP_EOL;
+            
+            print '<tr>';
+            
             print '<td> <a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] . '</a></td>';
 
             print '</tr>' . PHP_EOL;
