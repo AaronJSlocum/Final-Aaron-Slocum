@@ -7,19 +7,13 @@ include 'top.php';
     <table>
 
         <?php
-        //email => session email, cart product id innerjoin inventory productID
-        //INSERT INTO `tblCarts` (tblCustomers.pmkCustomerEmail, tblInventory.fldName, tblInventory.fldPrice)
+
         $query = "SELECT tblCarts.pfkCustomerEmail, tblCarts.pfkProductID, tblCarts.fldOrderQuantity, tblInventory.pmkProductID, tblInventory.fldName, tblInventory.fldPrice, tblInventory.fldImage, tblInventory.fldRemainingStock 
                             FROM `tblCarts` 
                             INNER JOIN `tblInventory` ON tblCarts.pfkProductID = tblInventory.pmkProductID
                             WHERE tblInventory.pmkProductID = tblCarts.pfkProductID AND tblCarts.pfkCustomerEmail = '". $_SESSION['user']['pmkCustomerEmail']. "'";
 
-        //$thisDatabaseReader->testSecurityQuery($query, 1, 1, 2, 0, 0);
 
-        //print '<p>' . $query . '</p>';
-
-//        $fillCartQuery = "INSERT INTO `tbleCarts` ()";
-//        $displayQuery = "SELECT * FROM `tblCarts`";
         if(isset($_SESSION['user'])) {
 
             $records = array();

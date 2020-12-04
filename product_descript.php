@@ -8,7 +8,7 @@ include 'top.php';
 
 
     <?php
-        $query = "SELECT `pmkProductID`, `fldName`,`fldPrice`,`fldRemainingStock`, `fldImage` FROM `tblInventory` WHERE `pmkProductID` = '$_GET[productID]'";
+        $query = "SELECT `pmkProductID`, `fldName`,`fldPrice`,`fldRemainingStock`, `fldImage`,  `fldDescription` FROM `tblInventory` WHERE `pmkProductID` = '$_GET[productID]'";
         //print '<h1>' . $query . '</h1>';
         if ($thisDatabaseReader->querySecurityOk($query,1,0,2,0,0))
             {
@@ -23,14 +23,26 @@ include 'top.php';
             print '<h1>' . $record['fldName'] . '</h1>';
             print '<h2>$' . $record['fldPrice'] . '</h2>';
             print '<img src="'. $record['fldImage'] .  '" alt="ProductImage" style="width:128px;height:128px;">';
-            print '<p> We currently have ' . $record['fldRemainingStock'] . ' left in stock </p>';
+            print '<p>' . $record['fldDescription'] . '</p>';
+            if ($record['fldRemainingStock'] == 0)
+            {
+                print '<p>This item is currently out of stock, sorry.</p>';
+            }else {
+                print '<p> We currently have ' . $record['fldRemainingStock'] . ' left in stock </p>';
+            }
         }
     ?>
 
 <!--get quantity of product being bought  -->
     <form method = "get" action = "product_descript.php">
         <label for = 'quantity'>Quantity</label>
-        <input type = 'text' name = 'quantity' id = 'quantity' size = '2'>
+        <select name = 'quantity' id = 'quantity'>
+            <?php
+                for ($x = 0; $x <= $record['fldRemainingStock']; $x++) {
+                    print '<option value "'.$x.'">' . $x . '</option>';
+                }
+            ?>
+        </select>
         <input type = "hidden" name= "productID"  id= "productID" value= <?php echo $_GET["productID"];?> >
         <input type = 'submit' id = 'submit' name = 'submit' value = 'Add to Cart'>
     </form>
@@ -39,8 +51,7 @@ include 'top.php';
         if($submit) {
           $query = "INSERT INTO `tblCarts` SET `pfkCustomerEmail` = ?, `pfkProductID` = ?,
           `fldOrderQuantity` = ?";
-            //VALUES ( '" . $_SESSION['user']['pmkCustomerEmail'] . "' , " . $_GET["productID"] . " , " . $_GET["quantity"] .")
-            //WHERE `pmkCustomerEmail` = ". $_SESSION['user']['pmkCustomerEmail']";
+
             $email = $_SESSION['user']['pmkCustomerEmail'];
             $info = [$email, $_GET["productID"], $_GET["quantity"]];
             //comment next line to not show security test
