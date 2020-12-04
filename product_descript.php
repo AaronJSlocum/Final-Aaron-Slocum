@@ -33,7 +33,7 @@ include 'top.php';
         <input type = 'text' name = 'quantity' id = 'quantity' size = '2'>
         <input type = "hidden" name= "productID"  id= "productID" value= <?php echo $_GET["productID"];?> >
         <input type = 'submit' id = 'submit' name = 'submit' value = 'Add to Cart'>
-      </form>
+    </form>
         <?php
         $submit = isset($_GET['submit']);
         if($submit) {
