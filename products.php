@@ -3,7 +3,7 @@ include 'top.php';
 ?>
 
 <main>
-    <p>Pictures of products with descriptions, links to purchase/view more</p>
+    <h>Our Fine Selection</h>
 
 
 
@@ -13,9 +13,7 @@ include 'top.php';
     		<!--
 
     		-->
-    		<tr>
-    			<th>Our Selection</th>
-    		</tr>
+
         <?php
 
 
@@ -32,17 +30,24 @@ include 'top.php';
         }
         //print_r($records);
         foreach ($records as $record) {
-            print '<tr>';
-            
-            print '<td> <img src="'. $record['fldImage'] .  '" alt="ProductImage" style="width:128px;height:128px;"> </td>';
-
-            print '</tr>' . PHP_EOL;
-            
-            print '<tr>';
-            
-            print '<td> <a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] . '</a></td>';
-
-            print '</tr>' . PHP_EOL;
+            print '<pre>';
+            print '<a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] .'';
+            print '</pre>';
+            print '<pre>';
+            print '<img src="'. $record['fldImage'] .  '" alt="ProductImage" style="width:128px;height:128px;">';
+            print  '</a>';
+            print '</pre>';
+//            print '<tr>';
+//
+//            print '<td> <img src="'. $record['fldImage'] .  '" alt="ProductImage" style="width:128px;height:128px;"> </td>';
+//
+//            print '</tr>' . PHP_EOL;
+//
+//            print '<tr>';
+//
+//            print '<td> <a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] . '</a></td>';
+//
+//            print '</tr>' . PHP_EOL;
         }
         ?>
 
