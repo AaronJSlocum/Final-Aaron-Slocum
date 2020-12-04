@@ -24,10 +24,10 @@ include 'top.php';
                 $records = $thisDatabaseReader->select($query, '');
             }
             //print_r($records);
-            print '<form>';
-            print '<tr>';
+            print '<form method = "get">';
+            //print '<tr>';
             print '<th>Your Cart</th>';
-            print '</tr>';
+            //print '</tr>';
 
             print '<tr>';
             print '<td>Remove?</td>';
@@ -44,7 +44,7 @@ include 'top.php';
 
                 print '<tr>';
                 //print '<td> <a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] . '</a></td>';
-                print '<td><input type="checkbox"> </td>';
+                print '<td><input type="checkbox" value =' . $record["fldName"] . '> </td>';
                 print '<td>' . $record["fldOrderQuantity"] . '</td>';
                 print '<td>' . $record["fldName"] . '</td>';
                 print '<td>$' . $record["fldPrice"] . '</td>';
@@ -52,6 +52,12 @@ include 'top.php';
             }
             print '</table>';
             print '<input type = "submit" name = "remove_submit" value = "Remove Item(s)">';
+            $submit = isset($_GET['remove_submit']);
+            if($submit)
+            {
+                print '<p>Removing...</p>';
+
+            }
             //print '<input type = "submit" name = "proceed_checkout" value = "Proceed to Checkout">';
             print '</form>';
 
@@ -63,7 +69,7 @@ include 'top.php';
 
 
         }else{
-            print '<p>Please Sign In to view your cart</p>';
+            print '<p>Please sign in to view your cart</p>';
         }
             ?>
 

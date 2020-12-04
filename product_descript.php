@@ -34,12 +34,12 @@ include 'top.php';
     ?>
 
 <!--get quantity of product being bought  -->
-    <form method = "get" action = "product_descript.php">
+    <form method = "get" >
         <label for = 'quantity'>Quantity</label>
         <select name = 'quantity' id = 'quantity'>
             <?php
                 for ($x = 0; $x <= $record['fldRemainingStock']; $x++) {
-                    print '<option value "'.$x.'">' . $x . '</option>';
+                    print '<option value = "'.$x.'">' . $x . '</option>';
                 }
             ?>
         </select>
@@ -53,8 +53,9 @@ include 'top.php';
           `fldOrderQuantity` = ?";
 
             $email = $_SESSION['user']['pmkCustomerEmail'];
+            print '<p>'. $_GET['quantity'] .'</p>';
             $info = [$email, $_GET["productID"], $_GET["quantity"]];
-            //comment next line to not show security test
+
             if ($thisDatabaseWriter->querySecurityOk($query, 0)) {
                 $insertToCartQuery = $thisDatabaseWriter->sanitizeQuery($query);
                 $success = $thisDatabaseWriter->insert($query, $info);
