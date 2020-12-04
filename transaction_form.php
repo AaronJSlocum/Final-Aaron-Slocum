@@ -50,6 +50,12 @@ include 'top.php';
             }
             print '</table>';
 
+            $total = 0;
+            foreach ($records as $record) {
+                $productTotal = $record["fldOrderQuantity"] * $record["fldPrice"];
+                $total += $productTotal;
+            }
+            print '<p> Your order total is $'.$total.'!</p>';
             
         print '<form method = "get" action = "transaction_form.php">';
         print '<input type="checkbox" id="orderConfirmation" name="confirm" value="confirm">';

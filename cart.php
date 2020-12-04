@@ -51,6 +51,12 @@ include 'top.php';
                 print '</tr>' . PHP_EOL;
             }
             print '</table>';
+            $total = 0;
+            foreach ($records as $record) {
+                $productTotal = $record["fldOrderQuantity"] * $record["fldPrice"];
+                $total += $productTotal;
+            }
+            print '<p> Your order total is $'.$total.'!</p>';
             print '<input type = "submit" name = "remove_submit" value = "Remove Item(s)">';
             $submit = isset($_GET['remove_submit']);
             if($submit)
