@@ -28,37 +28,34 @@ include 'top.php';
     ?>
 
 <!--get quantity of product being bought  -->
-    <form method = "get" action = "">
+    <form method = "get" action = "product_descript.php">
         <label for = 'quantity'>Quantity</label>
         <input type = 'text' name = 'quantity' id = 'quantity' size = '2'>
         <input type = "hidden" name= "productID"  id= "productID" value= <?php echo $_GET["productID"];?> >
         <input type = 'submit' id = 'submit' name = 'submit' value = 'Add to Cart'>
+      </form>
         <?php
         $submit = isset($_GET['submit']);
         if($submit) {
-            $insertToCartQuery = "INSERT INTO `tblCarts`  SET `pfkCustomerEmail` = ?, `pfkProductID` = ?, `fldOrderQuantity` = ?";
+          $query = "INSERT INTO `tblCarts` SET `pfkCustomerEmail` = ?, `pfkProductID` = ?,
+          `fldOrderQuantity` = ?";
             //VALUES ( '" . $_SESSION['user']['pmkCustomerEmail'] . "' , " . $_GET["productID"] . " , " . $_GET["quantity"] .")
             //WHERE `pmkCustomerEmail` = ". $_SESSION['user']['pmkCustomerEmail']";
-            $email = "' ". $_SESSION['user']['pmkCustomerEmail'] . " ' ";
+            $email = $_SESSION['user']['pmkCustomerEmail'];
             $info = [$email, $_GET["productID"], $_GET["quantity"]];
-            print_r($info);
             //comment next line to not show security test
-            $thisDatabaseReader->testSecurityQuery($insertToCartQuery, 0, 0, 0, 0, 0);
-
-            if ($thisDatabaseReader->querySecurityOk($insertToCartQuery, 0, 0, 0, 0, 0)) {
-                $insertToCartQuery = $thisDatabaseReader->sanitizeQuery($insertToCartQuery);
-                $success = $thisDatabaseReader->insert($insertToCartQuery, $info);
+            $thisDatabaseWriter->testSecurityQuery($query, 0);
+            if ($thisDatabaseWriter->querySecurityOk($query, 0)) {
+                $insertToCartQuery = $thisDatabaseWriter->sanitizeQuery($query);
+                $success = $thisDatabaseWriter->insert($query, $info);
             }
-            if($success)
-            {
-                print '<p>' . $insertToCartQuery . '</p>';
+            if($success){
+                print '<p>Order added to your cart!</p>';
             }else{
-                print_r($info);
-                print '<p> Query Failed! </p>';
+                print '<p>Order Failed! </p>';
             }
         }
         ?>
-    </form>
 </main>
 
 
