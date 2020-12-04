@@ -64,9 +64,9 @@
       $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND
       fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
-      if ($thisDatabaseWriter->querySecurityOk($query,1,1)) {
-        $query = $thisDatabaseWriter->sanitizeQuery($query);
-        $user = $thisDatabaseWriter->select($query, $name);
+      if ($thisDatabaseReader->querySecurityOk($query,1,1)) {
+        $query = $thisDatabaseReader->sanitizeQuery($query);
+        $user = $thisDatabaseReader->select($query, $name);
         $user = $user[0];
       }
       if(($user['fldFirstName']==$_POST['firstName'])&&($user['fldLastName']==$_POST['lastName'])){
@@ -102,9 +102,9 @@
       $query = "SELECT * FROM `tblCustomers` WHERE pmkCustomerEmail LIKE ? AND
       fldFirstName LIKE ? AND fldLastName LIKE ?";
       $name = [$_POST['email'],$_POST['firstName'],$_POST['lastName']];
-      if ($thisDatabaseWriter->querySecurityOk($query,1,1)) {
-        $query = $thisDatabaseWriter->sanitizeQuery($query);
-        $user = $thisDatabaseWriter->select($query, $name);
+      if ($thisDatabaseReader->querySecurityOk($query,1,1)) {
+        $query = $thisDatabaseReader->sanitizeQuery($query);
+        $user = $thisDatabaseReader->select($query, $name);
         $user = $user[0];
       }
       $_SESSION['user']=$user;

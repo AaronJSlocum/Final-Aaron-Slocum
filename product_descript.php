@@ -44,7 +44,6 @@ include 'top.php';
             $email = $_SESSION['user']['pmkCustomerEmail'];
             $info = [$email, $_GET["productID"], $_GET["quantity"]];
             //comment next line to not show security test
-            $thisDatabaseWriter->testSecurityQuery($query, 0);
             if ($thisDatabaseWriter->querySecurityOk($query, 0)) {
                 $insertToCartQuery = $thisDatabaseWriter->sanitizeQuery($query);
                 $success = $thisDatabaseWriter->insert($query, $info);
