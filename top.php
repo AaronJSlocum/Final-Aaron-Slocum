@@ -38,10 +38,6 @@
 ?>
  <?php
     include 'header.php';
-		if (isset($_SESSION['user'])){
-			print'<h3> Hello '. $_SESSION['user']['fldFirstName'] . ' ' .
-			$_SESSION['user']['fldLastName'].'</h3>';
-		}
     print PHP_EOL;
     include 'nav.php';
     ?>

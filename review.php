@@ -56,7 +56,7 @@
       print'<option value="4">&#9733 &#9733 &#9733 &#9733 &#9734</option>';
       print'<option value="5">&#9733 &#9733 &#9733 &#9733 &#9733</option>';
       print'</select><br></br>';
-      print'<label for="review">Give us your review:</label>
+      print'<label for="review">Give us your review:</label><br></br>
       <textarea id="review" name="review" rows="4" cols="50"></textarea><br></br>';
       print'<input type="submit" name="submit" value="Submit"/>';
       print'</form>';
