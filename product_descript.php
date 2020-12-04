@@ -60,6 +60,7 @@ include 'top.php';
                 $insertToCartQuery = $thisDatabaseWriter->sanitizeQuery($query);
                 $success = $thisDatabaseWriter->insert($query, $info);
             }
+
             if($success){
                 print '<p>Order added to your cart!</p>';
             }else{
