@@ -84,18 +84,19 @@ include 'top.php';
                     print 'failed query security';
                 }
                 if($success){
-                    print '<p>Order Recieved!</p>';
+                    
                 }else{
                     print '<p>Order Failed! </p>';
                     $cartProcessed = false;
                 }
             }
             if($cartProcessed){
+                $subj = 'Your Recent Mead Purchase';
+                $msg = 'Thank you for choosing us as your mead vendors! We hope to hear from you again soon!';
                 $email_array = [$email];
                 $deleteQuery = 'DELETE FROM tblCarts WHERE `pfkCustomerEmail` = ?';
                     if ($thisDatabaseWriter->querySecurityOk($deleteQuery,1,0,0,0,0)) {
                         $deleteQuery = $thisDatabaseWriter->sanitizeQuery($deleteQuery);
-                        print $deleteQuery;
                         $success = $thisDatabaseWriter->insert($deleteQuery, $email_array);
                     }
                     else{
@@ -103,10 +104,13 @@ include 'top.php';
                     }
                 if($success){
                     print '<p>Cart Deleted!</p>';
+                    mail($email,$subj,$msg);
                 }else{
                     print '<p>Deletion Failed! </p>';
                 } 
-            } 
+                
+            }
+            
                 
                 
         }
