@@ -68,11 +68,6 @@ include 'top.php';
                 $purchaseDate = date("m/d/Y");
                 $orderQuantity = $record['fldOrderQuantity'];
                 $completionStatus = true;
-//                print '<p>Product ID:' . $productID . '</p>';
-//                print '<p>Email:' . $email . '</p>';
-//                print '<p>Purchase Date:' . $purchaseDate . '</p>';
-//                print '<p>Order Quantity:' . $orderQuantity . '</p>';
-//                print '<p>Completion Status:' . $completionStatus . '</p>';
                 
                 $values = [$productID,$email,$purchaseDate,$orderQuantity,$completionStatus];
                 
