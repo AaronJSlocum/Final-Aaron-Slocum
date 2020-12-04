@@ -37,8 +37,6 @@
 				}
 ?>
  <?php
-    //giving each body element an id really helps the css later on
-    print '<body class="grid-layout positioning" id="' .$path_parts['filename']. '">';
     include 'header.php';
 		if (isset($_SESSION['user'])){
 			print'<h3> Hello '. $_SESSION['user']['fldFirstName'] . ' ' .
