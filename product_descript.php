@@ -17,6 +17,7 @@ include 'top.php';
                 $records = $thisDatabaseReader->select($query, '');
 
             }
+
         foreach($records as $record)
         {
             print '<h1>' . $record['fldName'] . '</h1>';
@@ -27,12 +28,33 @@ include 'top.php';
     ?>
 
 <!--get quantity of product being bought  -->
-    <form method = "get" action = "cart.php">
+    <form method = "get" action = "product_descript.php">
         <label for = 'quantity'>Quantity</label>
         <input type = 'text' name = 'quantity' id = 'quantity' size = '2'>
         <input type = "hidden" name= "productID"  id= "productID" value= <?php echo $_GET["productID"];?> >
-        <input type = 'submit' value = 'Add to Cart'>
-    </form>
+        <input type = 'submit' id = 'submit' name = 'submit' value = 'Add to Cart'>
+      </form>
+        <?php
+        $submit = isset($_GET['submit']);
+        if($submit) {
+          $query = "INSERT INTO `tblCarts` SET `pfkCustomerEmail` = ?, `pfkProductID` = ?,
+          `fldOrderQuantity` = ?";
+            //VALUES ( '" . $_SESSION['user']['pmkCustomerEmail'] . "' , " . $_GET["productID"] . " , " . $_GET["quantity"] .")
+            //WHERE `pmkCustomerEmail` = ". $_SESSION['user']['pmkCustomerEmail']";
+            $email = $_SESSION['user']['pmkCustomerEmail'];
+            $info = [$email, $_GET["productID"], $_GET["quantity"]];
+            //comment next line to not show security test
+            if ($thisDatabaseWriter->querySecurityOk($query, 0)) {
+                $insertToCartQuery = $thisDatabaseWriter->sanitizeQuery($query);
+                $success = $thisDatabaseWriter->insert($query, $info);
+            }
+            if($success){
+                print '<p>Order added to your cart!</p>';
+            }else{
+                print '<p>Order Failed! </p>';
+            }
+        }
+        ?>
 </main>
 
 
