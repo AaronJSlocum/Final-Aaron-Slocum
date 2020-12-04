@@ -22,7 +22,6 @@
   if(!$noUser){
     if($submit){
       if($repeat){
-        print'<p>Update</p>';
         $query = "UPDATE `tblReview` SET `fldStars` = ?, `fldReview` = ?
         WHERE `tblReview`.`pfkCustomerEmail` = ?";
         $info = [intval($_POST['stars']),$_POST['review'],$_SESSION['user']['pmkCustomerEmail']];
@@ -30,12 +29,11 @@
             $query = $thisDatabaseWriter->sanitizeQuery($query);
             $sucess = $thisDatabaseWriter->update($query, $info);}
         if($sucess){
-          print'<p>Thank you for your review</p>';
+          print'<p>Your review has been updated</p>';
         }else{
           print'<p>Your review has not been posted</p>';}
         clearMeta();
       }else{
-      print'<p>Insert</p>';
       $query = "INSERT INTO `tblReview` SET `pfkCustomerEmail` = ?, `fldStars` = ?,
       `fldReview` = ?";
       $info = [$_SESSION['user']['pmkCustomerEmail'], intval($_POST['stars']),$_POST['review']];
