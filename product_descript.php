@@ -53,7 +53,7 @@ include 'top.php';
           `fldOrderQuantity` = ?";
 
             $email = $_SESSION['user']['pmkCustomerEmail'];
-            print '<p>'. $_GET['quantity'] .'</p>';
+            //print '<p>'. $_GET['quantity'] .'</p>';
             $info = [$email, $_GET["productID"], $_GET["quantity"]];
 
             if ($thisDatabaseWriter->querySecurityOk($query, 0)) {

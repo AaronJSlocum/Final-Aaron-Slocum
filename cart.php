@@ -44,7 +44,7 @@ include 'top.php';
 
                 print '<tr>';
                 //print '<td> <a href="product_descript.php?productID=' . $record['pmkProductID'] . '">' . $record['fldName'] . '</a></td>';
-                print '<td><input type="checkbox" value =' . $record["fldName"] . '> </td>';
+                print '<td><input type="checkbox" name = "items[]" value =' . $record["pfkProductID"] . '> </td>';
                 print '<td>' . $record["fldOrderQuantity"] . '</td>';
                 print '<td>' . $record["fldName"] . '</td>';
                 print '<td>$' . $record["fldPrice"] . '</td>';
@@ -55,7 +55,25 @@ include 'top.php';
             $submit = isset($_GET['remove_submit']);
             if($submit)
             {
-                print '<p>Removing...</p>';
+
+
+                foreach($_GET["items"] as $item)
+                {
+                    print '<p>Removing...</p>';
+                    print '<p>'.$item. '</p>';
+                    $removeQuery = "DELETE FROM `tblCarts` WHERE `pfkCustomerEmail` = '". $_SESSION['user']['pmkCustomerEmail'] . "' AND `pfkProductID` = " . $item;
+                    print '<p>' . $removeQuery . '</p>';
+                    $deleteRecords = array();
+                    //$thisDatabaseWriter->testSecurityQuery($removeQuery);
+
+
+                    if ($thisDatabaseWriter->querySecurityOk($removeQuery, 1, 1, 2, 0, 0)) {
+                        $removeQuery = $thisDatabaseWriter->sanitizeQuery($removeQuery, 1, 0, 1, 0, 0);
+
+                        $deleteRecords = $thisDatabaseWriter->delete($removeQuery, '');
+                    }
+                }
+                header( "Location: cart.php" );
 
             }
             //print '<input type = "submit" name = "proceed_checkout" value = "Proceed to Checkout">';
