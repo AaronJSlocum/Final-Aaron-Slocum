@@ -53,7 +53,7 @@ include 'top.php';
             
         print '<form method = "get" action = "transaction_form.php">';
         print '<input type="checkbox" id="orderConfirmation" name="confirm" value="confirm">';
-        print'<label for="vehicle1">Confirm my order</label><br>';
+        print'<label for="vehicle1">Confirm my order</label>';
         print"<input type = 'submit' id = 'submit' name = 'submit' value = 'submit'>";
         print'</form>';
         
@@ -103,7 +103,9 @@ include 'top.php';
                         print 'failed query security';
                     }
                 if($success){
+                    print '<p>Order Complete! We will contact you for more information.</p>';
                     print '<p>Cart Deleted!</p>';
+
                     mail($email,$subj,$msg);
                 }else{
                     print '<p>Deletion Failed! </p>';
